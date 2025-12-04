@@ -1,42 +1,23 @@
-//your code here!
-// Select the list element (must exist in your HTML)
-const list = document.getElementById("myList");
+const list = document.getElementById("infi-list");
 
-// Counter to keep numbering consistent
-let itemCount = 0;
+let count = 1; // to keep track of list items
 
-// ---- Add initial items ----
-function addInitialItems() {
-  for (let i = 0; i < 10; i++) {
-    addListItem();
+// Function to add list items
+function addItems(num) {
+  for (let i = 0; i < num; i++) {
+    const li = document.createElement("li");
+    li.textContent = `Item ${count++}`;
+    list.appendChild(li);
   }
 }
 
-// ---- Add a single <li> item ----
-function addListItem() {
-  itemCount++;
-  const li = document.createElement("li");
-  li.textContent = "List Item " + itemCount;
-  list.appendChild(li);
-}
+// Add first 10 items initially
+addItems(10);
 
-// ---- Add 2 items when reaching the end ----
-function addMoreItems() {
-  addListItem();
-  addListItem();
-}
-
-// ---- Detect scroll to bottom ----
-window.addEventListener("scroll", () => {
-  const scrollPosition = window.innerHeight + window.scrollY;
-  const pageHeight = document.body.offsetHeight;
-
-  // When the user reaches the bottom (or near it)
-  if (scrollPosition >= pageHeight - 5) {
-    addMoreItems();
+// Add event listener for infinite scroll
+list.addEventListener("scroll", () => {
+  if (list.scrollTop + list.clientHeight >= list.scrollHeight) {
+    // user reached the bottom
+    addItems(2);
   }
 });
-
-// Initialize
-addInitialItems();
-
